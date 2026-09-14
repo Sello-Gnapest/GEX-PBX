@@ -1,0 +1,6 @@
+{
+  "name": "GEX PBX (Global Extension Exchange)",
+  "description": "GEX PBX Enterprise OS - Virtual PBX switchboard phone system with South African telecom SIP trunks, Durban 031 landline, Vodacom SIM twinning, and WebRTC softphones.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
