@@ -20,6 +20,7 @@ export const DEFAULT_LOCAL_PROVIDERS: LocalProvider[] = [
     registrationStatus: 'registered',
     latencyMs: 14,
     authUsername: 'kzn-031-tr-9408800',
+    authPassword: 'telkom-sip-secret-key-2026', // In production, store in .env
     durbanPopLocation: 'Durban Central Exchange (Kingsmead Metro)',
     codecs: ['G.711a (PCMA)', 'G.729', 'Opus'],
     isPrimary: true,
@@ -27,6 +28,14 @@ export const DEFAULT_LOCAL_PROVIDERS: LocalProvider[] = [
     registeredSince: '2026-09-09 08:00:00 (Uptime 99.98%)',
     channelCapacity: 30,
     activeChannels: 2,
+    outboundProxy: 'sip.kzn.telkom.co.za:5060',
+    inboundProxy: 'sip.kzn.telkom.co.za:5060',
+    registrarServer: 'sip.kzn.telkom.co.za:5060',
+    keepAliveInterval: 300, // 5 minutes
+    failoverThreshold: 100, // ms
+    maxRetries: 5,
+    retryInterval: 30, // seconds
+    description: 'Primary Telkom SIP trunk for 031 Durban area code (Kingsmead Metro POP)',
   },
   {
     id: 'prov-vodacom',
@@ -39,6 +48,7 @@ export const DEFAULT_LOCAL_PROVIDERS: LocalProvider[] = [
     registrationStatus: 'registered',
     latencyMs: 18,
     authUsername: 'vodabiz-durban-trunk',
+    authPassword: 'vodacom-tls-trunk-password', // Store in .env
     durbanPopLocation: 'Umhlanga Ridge Data Centre',
     codecs: ['G.711a (PCMA)', 'Opus HD', 'AMR-WB'],
     isPrimary: false,
@@ -46,6 +56,13 @@ export const DEFAULT_LOCAL_PROVIDERS: LocalProvider[] = [
     registeredSince: '2026-09-09 08:15:00',
     channelCapacity: 20,
     activeChannels: 0,
+    outboundProxy: 'ims-dbn.vodacom.co.za:5061',
+    registrarServer: 'ims-dbn.vodacom.co.za:5061',
+    keepAliveInterval: 300,
+    failoverThreshold: 120,
+    maxRetries: 3,
+    retryInterval: 60,
+    description: 'Vodacom mobile network interconnect (Umhlanga Ridge Data Centre)',
   },
   {
     id: 'prov-mtn',
@@ -58,6 +75,7 @@ export const DEFAULT_LOCAL_PROVIDERS: LocalProvider[] = [
     registrationStatus: 'registered',
     latencyMs: 22,
     authUsername: 'mtn-dbn-sip-994',
+    authPassword: 'mtn-udp-trunk-secret', // Store in .env
     durbanPopLocation: 'Durban North Switch Facility',
     codecs: ['G.711a (PCMA)', 'G.729'],
     isPrimary: false,
@@ -65,6 +83,13 @@ export const DEFAULT_LOCAL_PROVIDERS: LocalProvider[] = [
     registeredSince: '2026-09-09 08:10:00',
     channelCapacity: 15,
     activeChannels: 1,
+    outboundProxy: 'sip.kzn.mtnbusiness.co.za:5060',
+    registrarServer: 'sip.kzn.mtnbusiness.co.za:5060',
+    keepAliveInterval: 300,
+    failoverThreshold: 110,
+    maxRetries: 4,
+    retryInterval: 45,
+    description: 'MTN mobile network interconnect (Durban North Switch Facility)',
   },
   {
     id: 'prov-switchtel',
@@ -77,6 +102,7 @@ export const DEFAULT_LOCAL_PROVIDERS: LocalProvider[] = [
     registrationStatus: 'registered',
     latencyMs: 16,
     authUsername: 'swtel-031-pilot',
+    authPassword: 'switchtel-sip-auth-key', // Store in .env
     durbanPopLocation: 'Teraco DB1 Riverhorse Valley',
     codecs: ['G.711a (PCMA)', 'G.711u', 'G.729'],
     isPrimary: false,
@@ -84,6 +110,13 @@ export const DEFAULT_LOCAL_PROVIDERS: LocalProvider[] = [
     registeredSince: '2026-09-09 08:30:00',
     channelCapacity: 25,
     activeChannels: 0,
+    outboundProxy: 'sip.switchtel.co.za:5060',
+    registrarServer: 'sip.switchtel.co.za:5060',
+    keepAliveInterval: 300,
+    failoverThreshold: 100,
+    maxRetries: 5,
+    retryInterval: 30,
+    description: 'VoIP specialist provider (Teraco Riverhorse Valley Data Centre)',
   },
   {
     id: 'prov-liquid',
@@ -96,12 +129,21 @@ export const DEFAULT_LOCAL_PROVIDERS: LocalProvider[] = [
     registrationStatus: 'offline',
     latencyMs: 26,
     authUsername: 'lit-dbn-trunk-01',
+    authPassword: 'liquid-tls-trunk-password', // Store in .env
     durbanPopLocation: 'Mayville Metro POP',
     codecs: ['G.711a (PCMA)', 'G.729'],
     isPrimary: false,
     didRanges: ['+27 (031) 913 5000 - 5999'],
+    registeredSince: undefined,
     channelCapacity: 50,
     activeChannels: 0,
+    outboundProxy: 'sip.liquidtelecom.co.za:5061',
+    registrarServer: 'sip.liquidtelecom.co.za:5061',
+    keepAliveInterval: 300,
+    failoverThreshold: 150,
+    maxRetries: 3,
+    retryInterval: 60,
+    description: 'Fibre SIP trunk provider (Mayville Metro Point of Presence)',
   },
 ];
 
@@ -133,7 +175,7 @@ export const DEFAULT_OFFICE_031_CONFIG: Office031Config = {
   greetingMode: 'custom',
   greetingAudioTitle: 'GEX Durban HQ Corporate Greeting',
   greetingScript:
-    'Thank you for calling GEX PBX (Global Extension Exchange) Durban Regional Office at 031 940 8800. All our switchboard lines are currently assisting clients. Please leave your name, company, and contact number after the beep, or press 0 for operator assistance.',
+    'Thank you for calling GEX PBX (Global Extension Exchange) Durban Regional Office at 031 940 8800. All our switchboard lines are currently assisting clients. Please leave your name, company, [...]',
   ringDurationBeforeMailSeconds: 18,
 };
 
@@ -157,6 +199,8 @@ export const DEFAULT_EXTENSIONS: Extension[] = [
     deviceType: 'SIP Deskphone',
     pwaInstalled: true,
     notes: 'Main Durban Metro Inbound Reception & Transfer Console',
+    assignedProviderId: 'prov-telkom',
+    allowedProviders: ['prov-switchtel'],
   },
   {
     id: 'ext-102',
@@ -176,6 +220,8 @@ export const DEFAULT_EXTENSIONS: Extension[] = [
     deviceType: 'PWA Mobile (iOS/Android)',
     pwaInstalled: true,
     notes: 'Outbound sales agent using iPhone PWA Softphone on 4G/5G',
+    assignedProviderId: 'prov-telkom',
+    allowedProviders: ['prov-vodacom'],
   },
   {
     id: 'ext-103',
@@ -196,6 +242,8 @@ export const DEFAULT_EXTENSIONS: Extension[] = [
     deviceType: 'PWA Desktop',
     pwaInstalled: true,
     notes: 'Financial credit control & client direct DID dialer',
+    assignedProviderId: 'prov-telkom',
+    allowedProviders: ['prov-liquid'],
   },
   {
     id: 'ext-104',
@@ -215,6 +263,8 @@ export const DEFAULT_EXTENSIONS: Extension[] = [
     deviceType: 'PWA Mobile (iOS/Android)',
     pwaInstalled: true,
     notes: 'Mobile logistics agent at Durban Port using Android PWA softphone',
+    assignedProviderId: 'prov-vodacom',
+    allowedProviders: ['prov-mtn', 'prov-telkom'],
   },
   {
     id: 'ext-105',
@@ -234,6 +284,8 @@ export const DEFAULT_EXTENSIONS: Extension[] = [
     deviceType: 'PWA Desktop',
     pwaInstalled: true,
     notes: 'PBX Trunk routing, WebRTC signaling & network QoS engineer',
+    assignedProviderId: 'prov-telkom',
+    allowedProviders: ['prov-switchtel', 'prov-liquid'],
   },
   {
     id: 'ext-106',
@@ -255,6 +307,8 @@ export const DEFAULT_EXTENSIONS: Extension[] = [
     deviceType: 'PWA Mobile (iOS/Android)',
     pwaInstalled: true,
     notes: 'Vodacom Mobile (076 101 5283) linked with active Mobile Twinning & 031 Outbound CLI presentation',
+    assignedProviderId: 'prov-vodacom',
+    allowedProviders: ['prov-mtn', 'prov-telkom'],
   },
 ];
 
@@ -319,7 +373,7 @@ export const INITIAL_OFFICE_MAILS: OfficeMailItem[] = [
     audioDurationStr: '0:42',
     isRead: false,
     transcription:
-      'Hello, this is Sipho from Transnet Durban Pier 2 dispatch. We are calling regarding the customs clearance manifest for container 8492. Please call us back on 031 361 8700 or notify Ext 106 dispatch.',
+      'Hello, this is Sipho from Transnet Durban Pier 2 dispatch. We are calling regarding the customs clearance manifest for container 8492. Please call us back on 031 361 8700 or notify Ext 106[...]',
     urgent: true,
     emailSentTo: 'sello.ncwani@gmail.com',
   },
@@ -332,7 +386,7 @@ export const INITIAL_OFFICE_MAILS: OfficeMailItem[] = [
     audioDurationStr: '0:31',
     isRead: true,
     transcription:
-      'Good morning. This is your Telkom voice engineer confirming that the Durban Metro 031 pilot trunk has completed routing validation. SIP trunk ping latency is optimal at 14ms. Have a productive day.',
+      'Good morning. This is your Telkom voice engineer confirming that the Durban Metro 031 pilot trunk has completed routing validation. SIP trunk ping latency is optimal at 14ms. Have a produc[...]',
     urgent: false,
     emailSentTo: 'sello.ncwani@gmail.com',
   },
@@ -345,7 +399,7 @@ export const INITIAL_OFFICE_MAILS: OfficeMailItem[] = [
     audioDurationStr: '0:58',
     isRead: true,
     transcription:
-      'Good afternoon. Calling regarding the commercial service level agreement documents. I have sent the revised contracts to your main office mail. Kindly confirm receipt at your earliest convenience.',
+      'Good afternoon. Calling regarding the commercial service level agreement documents. I have sent the revised contracts to your main office mail. Kindly confirm receipt at your earliest conv[...]',
     urgent: false,
     emailSentTo: 'sello.ncwani@gmail.com',
   },
@@ -363,6 +417,8 @@ export const INITIAL_CALL_LOGS: CallLogItem[] = [
     lineId: 'line1',
     providerName: 'Telkom SA',
     recordingAvailable: true,
+    cost: 0.36,
+    costCurrency: 'ZAR',
   },
   {
     id: 'log-02',
@@ -374,6 +430,8 @@ export const INITIAL_CALL_LOGS: CallLogItem[] = [
     status: 'answered',
     lineId: 'line1',
     providerName: 'Telkom SA',
+    cost: 1.95,
+    costCurrency: 'ZAR',
   },
   {
     id: 'log-03',
@@ -385,6 +443,8 @@ export const INITIAL_CALL_LOGS: CallLogItem[] = [
     status: 'voicemail',
     lineId: 'line1',
     providerName: 'Vodacom Business',
+    cost: 0.25,
+    costCurrency: 'ZAR',
   },
   {
     id: 'log-04',
@@ -396,6 +456,8 @@ export const INITIAL_CALL_LOGS: CallLogItem[] = [
     status: 'missed',
     lineId: 'line1',
     providerName: 'Telkom SA',
+    cost: 0,
+    costCurrency: 'ZAR',
   },
 ];
 
@@ -467,4 +529,3 @@ export const DEFAULT_PHONE_CONTACTS: PhoneContact[] = [
     source: 'device_phonebook',
   },
 ];
-
