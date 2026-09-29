@@ -70,7 +70,6 @@ export const NetworkProvidersTab: React.FC<NetworkProvidersTabProps> = ({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-      {/* Top Header info */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-white">
         <div>
           <div className="flex items-center gap-2">
@@ -94,7 +93,7 @@ export const NetworkProvidersTab: React.FC<NetworkProvidersTabProps> = ({
             id="ping-providers-btn"
             onClick={onRefreshLatency}
             disabled={isPinging}
-            className="bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 text-xs font-semibold px-3.5 py-2 rounded-xl flex items-center gap-2 transition cursor-pointer shadow disabled:opacity-50"
+            className="bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 text-xs font-semibold px-3.5 py-2 rounded-xl flex items-center gap-2 transition cursor-pointer shadow"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isPinging ? 'animate-spin text-cyan-400' : ''}`} />
             <span>{isPinging ? 'Testing SIP Latency...' : 'Ping All Trunks (OPTIONS)'}</span>
@@ -111,7 +110,6 @@ export const NetworkProvidersTab: React.FC<NetworkProvidersTabProps> = ({
         </div>
       </div>
 
-      {/* Provider Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {providers.map((prov) => {
           const isRegistered = prov.registrationStatus === 'registered';
@@ -164,7 +162,6 @@ export const NetworkProvidersTab: React.FC<NetworkProvidersTabProps> = ({
                   )}
                 </div>
 
-                {/* Technical Credentials & Details */}
                 <div className="mt-4 space-y-2 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 text-xs font-mono">
                   <div className="flex items-center justify-between text-slate-400">
                     <span>Host:</span>
@@ -186,7 +183,6 @@ export const NetworkProvidersTab: React.FC<NetworkProvidersTabProps> = ({
                   </div>
                 </div>
 
-                {/* Latency & Codecs */}
                 <div className="mt-3 flex items-center justify-between text-xs">
                   <div className="flex items-center gap-1.5 text-slate-300">
                     <Gauge className="w-3.5 h-3.5 text-cyan-400" />
@@ -216,14 +212,12 @@ export const NetworkProvidersTab: React.FC<NetworkProvidersTabProps> = ({
                   </div>
                 </div>
 
-                {/* Linked DID ranges */}
                 <div className="mt-2 text-[11px] text-slate-400 flex items-center gap-1">
                   <span className="text-slate-500">DID Block:</span>
                   <span className="text-slate-300 font-mono">{prov.didRanges.join(', ')}</span>
                 </div>
               </div>
 
-              {/* Action Button */}
               <div className="pt-2 border-t border-slate-800 flex items-center gap-2">
                 {isPrimary ? (
                   <div className="w-full py-2 bg-emerald-950/60 border border-emerald-700/60 text-emerald-300 text-xs font-semibold rounded-xl text-center flex items-center justify-center gap-1.5">
@@ -246,7 +240,6 @@ export const NetworkProvidersTab: React.FC<NetworkProvidersTabProps> = ({
         })}
       </div>
 
-      {/* Outbound & Inbound Routing Logic Table */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -310,7 +303,6 @@ export const NetworkProvidersTab: React.FC<NetworkProvidersTabProps> = ({
         </div>
       </div>
 
-      {/* Add Custom SIP Trunk Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl text-white">
