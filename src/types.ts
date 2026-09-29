@@ -72,6 +72,10 @@ export interface Extension {
   callForwardingTarget?: string;
   pwaInstalled?: boolean;
   notes?: string;
+  
+  // NEW: Department-specific provider assignment
+  assignedProviderId?: string; // Primary provider for this extension
+  allowedProviders?: string[]; // Fallback providers
 }
 
 export type ProviderSlug = 'telkom' | 'vodacom' | 'mtn' | 'switchtel' | 'liquid' | 'custom';
@@ -87,6 +91,7 @@ export interface LocalProvider {
   registrationStatus: 'registered' | 'registering' | 'offline' | 'error';
   latencyMs: number;
   authUsername: string;
+  authPassword?: string; // NEW: SIP authentication password
   durbanPopLocation: string; // Durban / KZN Metro Exchange location
   codecs: string[];
   isPrimary: boolean;
@@ -94,6 +99,38 @@ export interface LocalProvider {
   registeredSince?: string;
   channelCapacity: number;
   activeChannels: number;
+  
+  // NEW: Enhanced provider configuration
+  outboundProxy?: string;
+  inboundProxy?: string;
+  registrarServer?: string;
+  keepAliveInterval?: number; // SIP REGISTER keep-alive (seconds)
+  failoverThreshold?: number; // Latency threshold before failover (ms)
+  maxRetries?: number;
+  retryInterval?: number; // Seconds between registration attempts
+  description?: string;
+}
+
+// NEW: Dial routing rules
+export interface DialRule {
+  id: string;
+  name: string;
+  pattern: string; // Regex pattern for dialing (e.g., "^031", "^082|083|084")
+  description: string;
+  primaryProviderId: string;
+  fallbackProviderIds: string[];
+  cost?: number; // Cost per minute
+  priority: number; // Lower = higher priority
+  enabled: boolean;
+}
+
+// NEW: Department provider assignment
+export interface DepartmentProviderMap {
+  id: string;
+  departmentName: string;
+  primaryProviderId: string;
+  fallbackProviderIds: string[];
+  description?: string;
 }
 
 export interface Office031Config {
@@ -151,6 +188,10 @@ export interface CallLogItem {
   lineId: LineId;
   providerName: string;
   recordingAvailable?: boolean;
+  
+  // NEW: Provider attribution
+  cost?: number;
+  costCurrency?: string;
 }
 
 export interface DesktopPhoneModel {
